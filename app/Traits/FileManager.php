@@ -73,14 +73,14 @@ trait FileManager
     /**
      * Upload single or multiple files to storage folder
      */
-    public function uploadToStorage($files, string $folder = 'uploads'): array
+    public function uploadToStorage($files, string $folder = 'uploads', string $disk = 'public'): array
     {
         $files = $this->normalizeFiles($files);
         $folder = trim($folder, '/');
         $paths = [];
 
         foreach ($files as $file) {
-            $paths[] = $file->store($folder);
+            $paths[] = $file->store($folder, $disk);
         }
 
         return $paths;
@@ -89,7 +89,7 @@ trait FileManager
     /**
      * Delete single or multiple files from storage folder + DB update
      */
-    public function deleteFromStorage(object $model, string $column): bool
+    public function deleteFromStorage(object $model, string $column,  string $disk = 'public'): bool
     {
         $raw = $model->getRawOriginal($column);
         if (empty($raw)) return false;
@@ -97,7 +97,7 @@ trait FileManager
         $files = is_array($raw) ? $raw : json_decode($raw, true);
 
         foreach ((array)$files as $filePath) {
-            if (Storage::exists($filePath)) Storage::delete($filePath);
+            if (Storage::disk($disk)->exists($filePath)) Storage::disk($disk)->delete($filePath);
         }
 
         $model->{$column} = null;
@@ -121,10 +121,10 @@ trait FileManager
     /**
      * Update files in storage folder: delete old + upload new
      */
-    public function updateToStorage(object $model, string $column, $newFiles, string $folder = 'uploads'): array
+    public function updateToStorage(object $model, string $column, $newFiles, string $folder = 'uploads',  string $disk = 'public'): array
     {
         $this->deleteFromStorage($model, $column);
-        $paths = $this->uploadToStorage($newFiles, $folder);
+        $paths = $this->uploadToStorage($newFiles, $folder, $disk);
 
         $model->{$column} = $paths;
         $model->save();

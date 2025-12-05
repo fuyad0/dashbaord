@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\API\Payment\PaymentController;
@@ -20,10 +19,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::get('/checkout/payment-success', [PaymentController::class, 'checkoutSuccess'])->name('checkout.success');
-Route::get('/checkout/payment-cancel', [PaymentController::class, 'checkoutCancel'])->name('checkout.cancel');
-
 
 Route::get('/run-migrate', function () {
     // Run the database migration
