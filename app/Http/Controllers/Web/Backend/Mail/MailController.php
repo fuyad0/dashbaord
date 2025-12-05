@@ -1,17 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Web\Mail;
+namespace App\Http\Controllers\Web\Backend\Mail;
 
-use Carbon\Carbon;
-use App\Models\User;
-use App\Models\EmailLog;
-use Illuminate\Support\Str;
-use App\Mail\CustomUserMail;
+
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
 {

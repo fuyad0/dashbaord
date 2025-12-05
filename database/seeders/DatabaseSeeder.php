@@ -25,11 +25,6 @@ class DatabaseSeeder extends Seeder
         DB::table('dynamic_pages')->truncate();
         DB::table('plans')->truncate();
         DB::table('plan_options')->truncate();
-        DB::table('stores')->truncate();
-        DB::table('offers')->truncate();
-        DB::table('availabilities')->truncate();
-        DB::table('products')->truncate();
-        DB::table('product_categories')->truncate();
 
         // Re-enable foreign key checks
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
@@ -41,11 +36,6 @@ class DatabaseSeeder extends Seeder
             MailSettingSeeder::class,
             DynamicPageSeeder::class,
             PlanSeeder::class,
-            StoreSeeder::class,
-            StoreOfferSeeder::class,
-            StoreAvailabilitySeeder::class,
-            ProductSeeder::class,
-            ProductCategorySeeder::class,
         ]);
     }
 }

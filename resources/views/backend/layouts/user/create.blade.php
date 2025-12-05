@@ -52,10 +52,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="number" class="form-label">Phone:</label>
-                            <input type="text" class="form-control @error('number') is-invalid @enderror"
-                                name="number" placeholder="number" id="number" value="{{ old('number') }}">
-                            @error('number')
+                            <label for="phone" class="form-label">Phone:</label>
+                            <input type="text" class="form-control @error('phone') is-invalid @enderror"
+                                name="phone" placeholder="phone" id="phone" value="{{ old('phone') }}">
+                            @error('phone')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\Payment;
+namespace App\Http\Controllers\Web\Backend\Payment;
 
 use Exception;
 use Carbon\Carbon;
@@ -298,7 +298,7 @@ class PaymentController extends Controller
             return back()->with('t-success', 'Subscription successful');
         } catch (\Exception $e) {
             Log::error("Subscription Success Error: " . $e->getMessage());
-            return back()->with('t-error', $e->getMessage);
+            return back()->with('t-error', $e->getMessage());
         }
     }
 

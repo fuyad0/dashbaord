@@ -71,6 +71,4 @@ Route::get('/show/{table}', function ($table) {
 });
 
 
-
-
 require __DIR__.'/auth.php';

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\Stripe;
+namespace App\Http\Controllers\Web\Backend\Stripe;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

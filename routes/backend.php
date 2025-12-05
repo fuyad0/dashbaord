@@ -1,61 +1,61 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\SupportMiddleware;
-use App\Http\Controllers\Web\Faq\FaqController;
-use App\Http\Controllers\Web\Mail\MailController;
-use App\Http\Controllers\Web\Plan\PlanController;
-use App\Http\Controllers\Web\Offer\OfferController;
-use App\Http\Controllers\Web\Store\StoreController;
-use App\Http\Controllers\Web\Backend\UserController;
-use App\Http\Controllers\Web\Coupon\CouponController;
-use App\Http\Controllers\Web\Review\ReviewController;
-use App\Http\Controllers\Web\Enquiry\EnquiryController;
-use App\Http\Controllers\Web\Payment\PaymentController;
-use App\Http\Controllers\Web\Product\ProductController;
-use App\Http\Controllers\Web\Stripe\StripeKeyController;
-use App\Http\Controllers\Web\Activity\ActivityController;
-use App\Http\Controllers\Web\Backend\DashboardController;
-use App\Http\Controllers\Web\EmailLog\EmailLogController;
-use App\Http\Controllers\Web\NewsLetter\NewsletterController;
-use App\Http\Controllers\Web\Availability\AvailabilityController;
 use App\Models\Subscription;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\Backend\UserController;
+use App\Http\Controllers\Web\Backend\Faq\FaqController;
+use App\Http\Controllers\Web\Backend\DashboardController;
+use App\Http\Controllers\Web\Backend\Mail\MailController;
+use App\Http\Controllers\Web\Backend\Plan\PlanController;
+use App\Http\Controllers\Web\Backend\Review\ReviewController;
+use App\Http\Controllers\Web\Backend\Enquiry\EnquiryController;
+use App\Http\Controllers\Web\Backend\Payment\PaymentController;
+use App\Http\Controllers\Web\Backend\Stripe\StripeKeyController;
+use App\Http\Controllers\Web\Backend\Activity\ActivityController;
+use App\Http\Controllers\Web\Backend\Dynamic\DynamicPage;
+use App\Http\Controllers\Web\Backend\EmailLog\EmailLogController;
 
 // Route for Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::middleware([SupportMiddleware::class])->group(function () {
+
 // Route for Users Page
-    Route::get('/user', [UserController::class, 'index'])->name('user.index');
-    Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
-    Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
-    Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
-    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
-    Route::patch('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+Route::get('/user', [UserController::class, 'index'])->name('user.index');
+Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
+Route::post('/user/store', [UserController::class, 'store'])->name('user.store');
+Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+Route::patch('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
+// Route for Dynamic Page
+Route::get('/page', [DynamicPage::class, 'index'])->name('page.index');
+Route::get('/page/create', [DynamicPage::class, 'create'])->name('page.create');
+Route::post('/page/store', [DynamicPage::class, 'store'])->name('page.store');
+Route::get('/page/edit/{id}', [DynamicPage::class, 'edit'])->name('page.edit');
+Route::patch('/page/update/{id}', [DynamicPage::class, 'update'])->name('page.update');
+Route::delete('/page/destroy/{id}', [DynamicPage::class, 'destroy'])->name('page.destroy');
 
 
-    //plan related
-    Route::get('/plan', [PlanController::class, 'index'])->name('plan.index');
-    Route::get('/plan-create', [PlanController::class, 'create'])->name('plan.create');
-    Route::post('/plan-create', [PlanController::class, 'store'])->name('plan.store');
-    Route::get('/plan/{id}', [PlanController::class, 'show'])->name('plan.show');
-    Route::get('/plan/edit/{id}', [PlanController::class, 'edit'])->name('plan.edit');
-    Route::put('/plan/update/{id}', [PlanController::class, 'update'])->name('plan.update');
-    Route::get('/plan/status/{id}', [PlanController::class, 'status'])->name('plan.status');
-    Route::delete('/plan/delete/{id}', [PlanController::class, 'destroy'])->name('plan.destroy');
+//plan related
+Route::get('/plan', [PlanController::class, 'index'])->name('plan.index');
+Route::get('/plan-create', [PlanController::class, 'create'])->name('plan.create');
+Route::post('/plan-create', [PlanController::class, 'store'])->name('plan.store');
+Route::get('/plan/{id}', [PlanController::class, 'show'])->name('plan.show');
+Route::get('/plan/edit/{id}', [PlanController::class, 'edit'])->name('plan.edit');
+Route::put('/plan/update/{id}', [PlanController::class, 'update'])->name('plan.update');
+Route::get('/plan/status/{id}', [PlanController::class, 'status'])->name('plan.status');
+Route::delete('/plan/delete/{id}', [PlanController::class, 'destroy'])->name('plan.destroy');
 
-});
 
 //Payment
 Route::get('/payment', [PaymentController::class, 'index'])->name('payment.index');
-Route::middleware([SupportMiddleware::class])->group(function () {
-    Route::get('/payment-create', [PaymentController::class, 'create'])->name('payment.create');
-    Route::post('/payment-create', [PaymentController::class, 'store'])->name('payment.store');
-    Route::get('/payment/{id}', [PaymentController::class, 'show'])->name('payment.show');
-    Route::post('/payment/cancel/{id}', [PaymentController::class, 'checkoutCancel'])->name('payment.cancel');
-    Route::delete('/payment/delete/{id}', [PaymentController::class, 'destroy'])->name('payment.destroy');
-});
+
+Route::get('/payment-create', [PaymentController::class, 'create'])->name('payment.create');
+Route::post('/payment-create', [PaymentController::class, 'store'])->name('payment.store');
+Route::get('/payment/{id}', [PaymentController::class, 'show'])->name('payment.show');
+Route::post('/payment/cancel/{id}', [PaymentController::class, 'checkoutCancel'])->name('payment.cancel');
+Route::delete('/payment/delete/{id}', [PaymentController::class, 'destroy'])->name('payment.destroy');
 
 Route::get('/success-subscription', [PaymentController::class, 'checkoutSuccess'])->name('checkout.success');
 Route::get('/checkout/payment-cancel', [Subscription::class, 'checkoutCancel'])->name('checkout.cancel');
@@ -99,7 +99,10 @@ Route::get('/review/edit/{id}', [ReviewController::class, 'edit'])->name('review
 Route::put('/review/update/{id}', [ReviewController::class, 'update'])->name('review.update');
 Route::delete('/review/delete/{id}', [ReviewController::class, 'destroy'])->name('review.destroy');
 
-Route::middleware([SupportMiddleware::class])->group(function () {
-    Route::get('/activity-logs', [ActivityController::class, 'index'])->name('activity.index');
-    Route::delete('/activity/delete/{id}', [ActivityController::class, 'destroy'])->name('activity.destroy');
-});
+
+Route::get('/activity-logs', [ActivityController::class, 'index'])->name('activity.index');
+Route::delete('/activity/delete/{id}', [ActivityController::class, 'destroy'])->name('activity.destroy');
+
+
+Route::get('/stripe/edit', [StripeKeyController::class, 'edit'])->name('stripe.edit');
+Route::put('/stripe/update', [StripeKeyController::class, 'update'])->name('stripe.update');

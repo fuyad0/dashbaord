@@ -67,23 +67,17 @@ class EmailLogController extends Controller
 
     public function create()
     {
-        $restaurants = Store::where('type', 'Restaurants')->get();
-        $coffees = Store::where('type', 'Coffee')->get();
-        $deals = Store::where('type', 'Deals')->orWhere('type', 'Cinemas')->get();
         $users = User::all();
 
         $templates = EmailTemplate::all();
 
-        return view('backend.layouts.EmailLog.create', compact('users', 'templates', 'deals', 'coffees', 'restaurants'));
+        return view('backend.layouts.EmailLog.create', compact('users', 'templates'));
     }
 
     public function sendBulkMail(Request $request)
     {
         $request->validate([
             'user_ids'       => 'nullable|array',
-            'restaurant_ids' => 'nullable|array',
-            'coffee_ids'     => 'nullable|array',
-            'deal_ids'       => 'nullable|array',
             'template_id'    => 'required|exists:email_templates,id',
             'schedule_time'  => 'nullable|date',
         ]);
@@ -99,19 +93,6 @@ class EmailLogController extends Controller
             $users = User::whereIn('id', $request->user_ids)->get();
         }
 
-        // ------------------------
-        // Fetch Stores (merged arrays)
-        // ------------------------
-        $storeIds = array_merge(
-            $request->restaurant_ids ?? [],
-            $request->coffee_ids ?? [],
-            $request->deal_ids ?? []
-        );
-
-        $stores = collect();
-        if (!empty($storeIds)) {
-            $stores = Store::whereIn('id', $storeIds)->get();
-        }
 
         // ------------------------
         // Send Emails to Users
@@ -150,46 +131,6 @@ class EmailLogController extends Controller
                 Log::error("Email failed for User ID {$user->id}: {$e->getMessage()}");
             }
         }
-
-        // ------------------------
-        // Send Emails to Stores
-        // ------------------------
-        foreach ($stores as $store) {
-            if (empty($store->email)) continue; // Skip if no email
-
-            $subject = $this->parseTemplate($template->subject, $store);
-            $body    = $this->parseTemplate($template->body, $store);
-
-            $log = EmailLog::create([
-                'template_id' => $template->id,
-                'store_id'    => $store->id,
-                'status'      => 'pending',
-                'subject'     => $subject,
-                'body'        => $body,
-            ]);
-
-            try {
-                if ($scheduleTime && $scheduleTime->isFuture()) {
-                    Mail::to($store->email)
-                        ->later($scheduleTime, new CustomUserMail($subject, $body));
-
-                    $log->update([
-                        'status'  => 'scheduled',
-                        'sent_at' => $scheduleTime,
-                    ]);
-                } else {
-                    Mail::to($store->email)->send(new CustomUserMail($subject, $body));
-                    $log->update([
-                        'status'  => 'sent',
-                        'sent_at' => now(),
-                    ]);
-                }
-            } catch (\Exception $e) {
-                $log->update(['status' => 'failed']);
-                Log::error("Email failed for Store ID {$store->id}: {$e->getMessage()}");
-            }
-        }
-
         return redirect()->route('email.index')->with('t-success', 'Emails have been sent or scheduled successfully!');
     }
 

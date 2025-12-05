@@ -16,12 +16,13 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->nullable();
-            $table->string('number')->nullable();
+            $table->string('phone')->nullable();
             $table->text('address')->nullable();
+            $table->text('avatar')->nullable();
             $table->date('dob')->nullable();
             $table->string('password');
             $table->boolean('is_agree')->default(true);
-            $table->enum('role', ['Admin', 'Company', 'User', 'Support'])->default('User');
+            $table->enum('role', ['Admin', 'User'])->default('User');
             $table->boolean('is_online')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

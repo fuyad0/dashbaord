@@ -6,17 +6,14 @@ use App\Models\User;
 use Illuminate\View\View;
 use App\Models\UserDetails;
 use Illuminate\Http\Request;
-use DrewM\MailChimp\MailChimp;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Web\NewsLetter\NewsletterController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -52,7 +49,7 @@ class UserController extends Controller
                                 </div>';
                 })
                 ->rawColumns(['avatar', 'action'])
-                ->make();
+                ->make(true);
         }
         return view('backend.layouts.user.index');
     }
@@ -75,11 +72,11 @@ class UserController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'nullable|string|max:255',
             'email' => 'required|string|email|unique:users,email',
-            'number' => 'nullable|max:20',
+            'phone' => 'nullable|max:20',
             'dob' => 'nullable|date',
             'password' => 'required|string',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'role' => 'required|in:User,Company,Admin,Support',
+            'role' => 'required|in:User,Admin',
         ]);
 
 
@@ -106,23 +103,12 @@ class UserController extends Controller
             $data->email_verified_at = now();
             $data->password = Hash::make($request->password);
             $data->dob = $request->dob ?? NULL;
-            $data->number = $request->number ?? NULL;
+            $data->phone = $request->phone ?? NULL;
             $data->role = $request->role;
+            $data->avatar = $avatarPath;
             $data->save();
 
 
-            // Create user details
-            $userdata = new UserDetails();
-            $userdata->users_id = $data->id;
-            $userdata->photo = $avatarPath ?? null;
-            $userdata->save();
-
-            /*$NewsletterController = new NewsletterController();
-            $response = $NewsletterController->subscribe($request);
-            if (session()->get('t-error')) {
-                DB::rollBack();
-                return redirect()->back()->with('t-error', session('t-error'));
-            }*/
             DB::commit();
             return redirect()->route('user.index')->with('t-success', 'User created successfully');
         } catch (\Exception $exception) {
@@ -133,7 +119,7 @@ class UserController extends Controller
 
     public function edit(int $id): View
     {
-        $data = User::with('userDetails')->findOrFail($id);
+        $data = User::findOrFail($id);
         //dd($data);
         return view('backend.layouts.user.edit', compact('data'));
     }
@@ -142,14 +128,14 @@ class UserController extends Controller
     {
         try {
             // Find the user
-            $user = User::with('userDetails')->findOrFail($id);
+            $user = User::findOrFail($id);
 
             // Validate request
             $validator = Validator::make($request->all(), [
                 'first_name' => 'nullable|string|max:100',
                 'last_name' => 'nullable|string|max:100',
                 'email' => 'nullable|string|email|unique:users,email,' . $id,
-                'number'   => 'required|max:20',
+                'phone'   => 'required|max:20',
                 'password' => 'nullable|string',
                 'dob' => 'nullable|string|max:100',
                 'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -176,22 +162,17 @@ class UserController extends Controller
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->email = $request->email;
-            $user->number = $request->number;
+            $user->phone = $request->phone;
             if ($request->filled('password')) {
                 $user->password = Hash::make($request->password);
             }
             $user->dob = $request->dob ?? $user->dob;
             $user->role   = $request->role;
+            if ($request->hasFile('avatar')) {
+                $user->photo = $avatarPath;
+            }
             $user->update();
 
-            if ($user) {
-                $userDetails = $user->userDetails ?? new UserDetails(['users_id' => $user->id]);
-
-                if ($request->hasFile('avatar')) {
-                    $userDetails->photo = $avatarPath;
-                }
-                $userDetails->save();
-            }
 
             return redirect()->route('user.index')->with('t-success', 'User info Updated Successfully.');
         } catch (\Exception $exception) {

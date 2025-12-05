@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\Enquiry;
+namespace App\Http\Controllers\Web\Backend\Enquiry;
 
 use App\Models\Enquiry;
 use Illuminate\Http\Request;

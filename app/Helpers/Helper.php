@@ -9,23 +9,6 @@ class Helper {
 
     //! File or Image Upload
     public static function fileUpload($file, string $folder, string $name): ?string {
-
-        if (!$file->isValid()) {
-            return null;
-        }
-
-        // filename clean + extension add
-        $imageName = Str::slug($name) . '.' . $file->getClientOriginalExtension();
-
-        // destination path inside storage/app/public
-        $storagePath = 'uploads/' . $folder;
-
-        // store file in public disk (storage/app/public/uploads/...)
-        $file->storeAs($storagePath, $imageName, 'public');
-
-        // return relative path (database e rakhbar jonno)
-        return $storagePath . '/' . $imageName;
-        /*
         if (!$file->isValid()) {
             return null;
         }
@@ -36,7 +19,7 @@ class Helper {
             mkdir($path, 0755, true);
         }
         $file->move($path, $imageName);
-        return 'uploads/' . $folder . '/' . $imageName;*/
+        return 'uploads/' . $folder . '/' . $imageName;
     }
 
     //! File or Image Delete

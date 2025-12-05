@@ -28,7 +28,8 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
-        'number',
+        'phone',
+        'avatar',
         'address',
         'dob',
         'password',
@@ -74,16 +75,6 @@ class User extends Authenticatable
         'avatar'
     ];
 
-    public function userDetails()
-    {
-        return $this->hasOne(UserDetails::class, 'users_id', 'id');
-    }
-
-    public function store()
-    {
-        return $this->hasMany(Store::class, 'users_id');
-    }
-
     public function subscribed(): HasMany
     {
         return $this->hasMany(Subscription::class, 'user_id');
@@ -91,10 +82,6 @@ class User extends Authenticatable
 
     public function emaillog(){
         return $this->hasMany(EmailLog::class);
-    }
-
-    public function couponUsage(){
-        return $this->hasMany(CouponUsage::class);
     }
 
      public function review(){
@@ -106,26 +93,11 @@ class User extends Authenticatable
         return trim("{$this->first_name} {$this->last_name}");
     }
 
-    // accessor for avatar (photo from user_details)
-    public function getAvatarAttribute()
+    public function getAvatarAttribute($value)
     {
-        $default = env('APP_URL') . '/frontend/default-avatar-profile.jpg';
-
-        // Check if relation exists and has a photo
-        $photo = $this->userDetails?->photo;
-
-        if (empty($photo)) {
-            return $default;
-        }
-
-        // If photo is already a full URL, return as-is
-        if (filter_var($photo, FILTER_VALIDATE_URL)) {
-            return $photo;
-        }
-
-        // Otherwise, return full URL using Storage facade
-        return env('APP_URL') . Storage::url($photo);
+        return $value;
     }
+
 
 
 

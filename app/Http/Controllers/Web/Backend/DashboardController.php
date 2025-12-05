@@ -31,24 +31,18 @@ class DashboardController extends Controller
 
             $admins = User::where('role', 'Admin')->count();
             $users = User::where('role', '!=', 'Admin')->count();
-            $activeStores = Store::where('status', 'Active')->count();
-            $pendingStores = Store::where('status', 'Pending')->count();
             $activeSubscritpions = Subscription::where('stripe_status', 'active')->count();
             $inactiveSubscritpions = Subscription::where('stripe_status', '!=' ,'active')->count();
             $plans = Plan::where('status', 'Active')->count();
-            $activeProducts = Product::where('status', 'Active')->count();
-            $inactiveProducts = Product::where('status', 'Inactive')->count();
             $email = EmailLog::where('status', 'success')->count();
             $review=Review::where('status', 'Active')->count();
             $faq=Faq::where('status', 'Active')->count();
             $enquiry=Enquiry::where('status', 'Active')->count();
             $activityLog=Activity::count();
-            if ($pendingStores > 0) {
-                session()->flash('t-warning', 'This store is still pending.');
-            }
+            
             //dd(Auth::user());
             return view('backend.layouts.dashboard.index',
-             compact('admins', 'users', 'activeStores', 'pendingStores', 'activeProducts', 'inactiveProducts',  'activeSubscritpions', 'inactiveSubscritpions', 'plans', 'email', 'review', 'faq', 'enquiry', 'activityLog'));
+             compact('admins', 'users', 'activeSubscritpions', 'inactiveSubscritpions', 'plans', 'email', 'review', 'faq', 'enquiry', 'activityLog'));
         }else{
             return view('auth.layouts.login');
         }

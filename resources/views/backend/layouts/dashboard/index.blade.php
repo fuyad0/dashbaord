@@ -129,101 +129,6 @@
                 </div>
             </div>
         </div>
-@if(Auth::user()->role==='Admin')
-        <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
-            <a href="/admin/store" class="card-link">
-                <div class="card overflow-hidden">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <h3 class="mb-2 fw-semibold">{{ $pendingStores }}</h3>
-                                <p class="text-muted fs-13 mb-0">Total Pending Stores</p>
-                            </div>
-                            <div class="col col-auto top-icn dash">
-                                <div class="counter-icon bg-warning dash ms-auto box-shadow-info">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-                                        <path
-                                            d="M53.5 245.1L110.3 131.4C121.2 109.7 143.3 96 167.6 96L472.5 96C496.7 96 518.9 109.7 529.7 131.4L586.5 245.1C590.1 252.3 592 260.2 592 268.3C592 295.6 570.8 318 544 319.9L544 512C544 529.7 529.7 544 512 544C494.3 544 480 529.7 480 512L480 320L384 320L384 496C384 522.5 362.5 544 336 544L144 544C117.5 544 96 522.5 96 496L96 319.9C69.2 318 48 295.6 48 268.3C48 260.3 49.9 252.3 53.5 245.1zM160 320L160 432C160 440.8 167.2 448 176 448L304 448C312.8 448 320 440.8 320 432L320 320L160 320z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
-            <a href="/admin/store" class="card-link">
-                <div class="card overflow-hidden">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <h3 class="mb-2 fw-semibold">{{ $activeStores }}</h3>
-                                <p class="text-muted fs-13 mb-0">Total Active Stores</p>
-                            </div>
-                            <div class="col col-auto top-icn dash">
-                                <div class="counter-icon bg-success dash ms-auto box-shadow-info">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-                                        <path
-                                            d="M53.5 245.1L110.3 131.4C121.2 109.7 143.3 96 167.6 96L472.5 96C496.7 96 518.9 109.7 529.7 131.4L586.5 245.1C590.1 252.3 592 260.2 592 268.3C592 295.6 570.8 318 544 319.9L544 512C544 529.7 529.7 544 512 544C494.3 544 480 529.7 480 512L480 320L384 320L384 496C384 522.5 362.5 544 336 544L144 544C117.5 544 96 522.5 96 496L96 319.9C69.2 318 48 295.6 48 268.3C48 260.3 49.9 252.3 53.5 245.1zM160 320L160 432C160 440.8 167.2 448 176 448L304 448C312.8 448 320 440.8 320 432L320 320L160 320z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
-            <a href="/admin/product" class="card-link">
-                <div class="card overflow-hidden">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <h3 class="mb-2 fw-semibold">{{ $activeProducts }}</h3>
-                                <p class="text-muted fs-13 mb-0">Total Active Products</p>
-                            </div>
-                            <div class="col col-auto top-icn dash">
-                                <div class="counter-icon bg-success dash ms-auto box-shadow-info">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                                        <path
-                                            d="M439.4 96L448 96C483.3 96 512 124.7 512 160L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 160C128 124.7 156.7 96 192 96L200.6 96C211.6 76.9 232.3 64 256 64L384 64C407.7 64 428.4 76.9 439.4 96zM376 176C389.3 176 400 165.3 400 152C400 138.7 389.3 128 376 128L264 128C250.7 128 240 138.7 240 152C240 165.3 250.7 176 264 176L376 176zM256 320C256 302.3 241.7 288 224 288C206.3 288 192 302.3 192 320C192 337.7 206.3 352 224 352C241.7 352 256 337.7 256 320zM288 320C288 333.3 298.7 344 312 344L424 344C437.3 344 448 333.3 448 320C448 306.7 437.3 296 424 296L312 296C298.7 296 288 306.7 288 320zM288 448C288 461.3 298.7 472 312 472L424 472C437.3 472 448 461.3 448 448C448 434.7 437.3 424 424 424L312 424C298.7 424 288 434.7 288 448zM224 480C241.7 480 256 465.7 256 448C256 430.3 241.7 416 224 416C206.3 416 192 430.3 192 448C192 465.7 206.3 480 224 480z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-
-        <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
-            <a href="/admin/product" class="card-link">
-                <div class="card overflow-hidden">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <h3 class="mb-2 fw-semibold">{{ $inactiveProducts }}</h3>
-                                <p class="text-muted fs-13 mb-0">Total Inactive Products</p>
-                            </div>
-                            <div class="col col-auto top-icn dash">
-                                <div class="counter-icon bg-danger dash ms-auto box-shadow-info">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
-                                        <path
-                                            d="M439.4 96L448 96C483.3 96 512 124.7 512 160L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 160C128 124.7 156.7 96 192 96L200.6 96C211.6 76.9 232.3 64 256 64L384 64C407.7 64 428.4 76.9 439.4 96zM376 176C389.3 176 400 165.3 400 152C400 138.7 389.3 128 376 128L264 128C250.7 128 240 138.7 240 152C240 165.3 250.7 176 264 176L376 176zM256 320C256 302.3 241.7 288 224 288C206.3 288 192 302.3 192 320C192 337.7 206.3 352 224 352C241.7 352 256 337.7 256 320zM288 320C288 333.3 298.7 344 312 344L424 344C437.3 344 448 333.3 448 320C448 306.7 437.3 296 424 296L312 296C298.7 296 288 306.7 288 320zM288 448C288 461.3 298.7 472 312 472L424 472C437.3 472 448 461.3 448 448C448 434.7 437.3 424 424 424L312 424C298.7 424 288 434.7 288 448zM224 480C241.7 480 256 465.7 256 448C256 430.3 241.7 416 224 416C206.3 416 192 430.3 192 448C192 465.7 206.3 480 224 480z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
 
         <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
             <a href="/admin/payment" class="card-link">
@@ -293,7 +198,7 @@
                 </div>
             </a>
         </div>
-@endif
+
         <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
             <a href="/admin/mail" class="card-link">
                 <div class="card overflow-hidden">

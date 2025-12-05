@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\Faq;
+namespace App\Http\Controllers\Web\Backend\Faq;
 
 use App\Models\Faq;
 use Illuminate\Http\Request;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web\Plan;
+namespace App\Http\Controllers\Web\Backend\Plan;
 
 use App\Models\Plan;
 use App\Traits\ApiResponse;
